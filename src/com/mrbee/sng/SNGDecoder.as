@@ -25,12 +25,12 @@ package com.mrbee.sng
 		/**
 		 * Finish decoding callback. Callback must accept one parametr - ambContent:AMBObject
 		 */		
-		private var _callback:Function;
+		private var _callback:Function; 
 		
 		/**
 		 * @private 
 		 */		
-		private var _AMB:SNGObject;
+		private var _SNG:SNGObject;
 		
 		/**
 		 * Decoding AMB data format
@@ -43,22 +43,22 @@ package com.mrbee.sng
 			
 			source.uncompress();
 			
-			_AMB = new SNGObject();
+			_SNG = new SNGObject();
 			
 			// set position to 0 byte
 			source.position = 0;
 			
 			// read version
-			_AMB.version = source.readUnsignedInt();
+			_SNG.version = source.readUnsignedInt();
 				
 			// read frames count
-			_AMB.totalFrames = source.readUnsignedInt();
+			_SNG.totalFrames = source.readUnsignedInt();
 			
 			// read item width
-			_AMB.width = source.readUnsignedInt();
+			_SNG.width = source.readUnsignedInt();
 			
 			// read item height
-			_AMB.height = source.readUnsignedInt();
+			_SNG.height = source.readUnsignedInt();
 						
 			// read original item bytes
 			var originalBytes:uint = source.readUnsignedInt();
@@ -72,17 +72,17 @@ package com.mrbee.sng
 			loaderOriginal.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void{
 				
 				Loader(e.currentTarget.loader).removeEventListener(e.type, arguments.callee); 				
-				_AMB.firstData = ((e.currentTarget as LoaderInfo).content as Bitmap).bitmapData;				
+				_SNG.firstData = ((e.currentTarget as LoaderInfo).content as Bitmap).bitmapData;				
 				
 			});
 			loaderOriginal.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onError);
 			loaderOriginal.loadBytes(originalByteArray);
 			
 			// read xOffset items
-			_AMB.xOffset = source.readUnsignedInt();
+			_SNG.xOffset = source.readUnsignedInt();
 			
 			// read yOffset items
-			_AMB.yOffset = source.readUnsignedInt();
+			_SNG.yOffset = source.readUnsignedInt();
 			
 			// decode sheet items
 			decodeSpriteSheetContent(source);
@@ -105,14 +105,14 @@ package com.mrbee.sng
 				
 					Loader(e.currentTarget.loader).removeEventListener(e.type, arguments.callee); 
 					
-					_AMB.sheetItems.push(((e.currentTarget as LoaderInfo).content as Bitmap).bitmapData);					
+					_SNG.sheetItems.push(((e.currentTarget as LoaderInfo).content as Bitmap).bitmapData);					
 					decodeSpriteSheetContent(source);
 					
 				});
 				loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onError);
 				loader.loadBytes(itemByteArray);
 			} else {
-				_callback(_AMB);						
+				_callback(_SNG);						
 				_callback = null;
 			}
 		}

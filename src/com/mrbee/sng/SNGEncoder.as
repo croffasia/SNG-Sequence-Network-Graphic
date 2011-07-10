@@ -8,8 +8,7 @@
  ****************************************************************/
 package com.mrbee.sng
 {
-	import com.adobe.images.PNGEncoder;
-	
+	import by.blooddy.crypto.image.PNG24Encoder;	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
@@ -30,47 +29,46 @@ package com.mrbee.sng
 		{
 			source.regenerateBitmapPositions();
 			
-			//var sheetBytes:ByteArray = PNGEncoder.encode(sourceSheet);
-			var originalBytes:ByteArray = PNGEncoder.encode(source.originalSource);
+			var originalBytes:ByteArray = PNG24Encoder.encode(source.originalSource);
 			
 			// create ABM ByteArray
-			var AMB:ByteArray = new ByteArray();
+			var SNG:ByteArray = new ByteArray();
 			
 			// write version
-			AMB.writeUnsignedInt(source.version);
+			SNG.writeUnsignedInt(source.version);
 			
 			// write frames count
-			AMB.writeUnsignedInt(source.totalFrames);
+			SNG.writeUnsignedInt(source.totalFrames);
 			
 			// write item width
-			AMB.writeUnsignedInt(source.width);
+			SNG.writeUnsignedInt(source.width);
 			
 			// write item height
-			AMB.writeUnsignedInt(source.height);
+			SNG.writeUnsignedInt(source.height);
 			
 			// write lenght bytes for original picture
-			AMB.writeUnsignedInt(originalBytes.length);
+			SNG.writeUnsignedInt(originalBytes.length);
 			
 			// write original picture 
-			AMB.writeBytes(originalBytes, 0, originalBytes.bytesAvailable);
+			SNG.writeBytes(originalBytes, 0, originalBytes.bytesAvailable);
 			
 			// write xOffset for sheet
-			AMB.writeInt(source.minXOffset);
+			SNG.writeInt(source.minXOffset);
 			
 			// write yOffset for sheet
-			AMB.writeInt(source.minYOffset);
+			SNG.writeInt(source.minYOffset);
 			
 			// write spritesheet data
 			//AMB.writeBytes(sheetBytes, 0, sheetBytes.bytesAvailable);
 			
 			for(var i:int = 0; i < source.frameSources.length; i++){
-				writeSpriteSheetItem(AMB, source.frameSources[i]);
+				writeSpriteSheetItem(SNG, source.frameSources[i]);
 			}
 			
 			// compress
-			AMB.compress();
+			SNG.compress();
 			
-			return AMB;
+			return SNG;
 		}
 		
 		/**
@@ -81,7 +79,7 @@ package com.mrbee.sng
 		 */		
 		static protected function writeSpriteSheetItem(source:ByteArray, bitmapdata:BitmapData):void
 		{
-			var chunkBA:ByteArray = PNGEncoder.encode(bitmapdata);
+			var chunkBA:ByteArray = PNG24Encoder.encode(bitmapdata);
 			source.writeUnsignedInt(chunkBA.length);
 			
 			chunkBA.position = 0;

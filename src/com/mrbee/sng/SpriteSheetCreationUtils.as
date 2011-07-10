@@ -345,6 +345,9 @@ package com.mrbee.sng
 		 */		
 		public function set originalSource(value:BitmapData):void
 		{
+			_width = value.width;
+			_height = value.height;
+			
 			_originalSource = value;
 		}
 
