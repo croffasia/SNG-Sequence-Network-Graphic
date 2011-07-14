@@ -96,7 +96,7 @@ package com.mrbee.sng
 		{			
 			if(_originalSource == null)
 			{
-				throw new Error("Change sequence items after added original source");
+				originalSource = source;
 				return;
 			}
 			
@@ -186,8 +186,8 @@ package com.mrbee.sng
 				
 				rect.x = minXOffset;
 				rect.y = minYOffset;
-				
-				var ba:ByteArray = _frameSources[i].getPixels(rect);					
+				 
+				var ba:ByteArray = _frameSources[i].getPixels(rect);									
 				ba.position = 0;
 				
 				rect.x = 0;
@@ -341,7 +341,7 @@ package com.mrbee.sng
 		}
 
 		/**
-		 * @private
+		 * @private 
 		 */		
 		public function set originalSource(value:BitmapData):void
 		{
